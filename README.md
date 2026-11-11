@@ -36,3 +36,6 @@ Rank  Word        Count
 
 ## Roadmap
 Planned upgrades as I work through CS50P: error handling for missing files, passing the PDF name as an argument, unit tests, saving results to CSV.
+
+## About
+Part of my CS50P learning journey: [learning-log](https://github.com/sarvagya-p/learning-log)
