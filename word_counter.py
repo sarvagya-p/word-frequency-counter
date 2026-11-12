@@ -1,9 +1,16 @@
+import os
 import re
 from collections import Counter
 from pypdf import PdfReader
 
 # Common words we usually don't care about
-STOP_WORDS = {"the", "is", "of", "and", "to", "a", "in", "it", "with", "you", "what", "that", "may", "this", "are", "for", "be", "as", "on", "by", "or", "can", "not", "an", "if", "we", "from", "have", "has", "at", "will", "which", "each", "all", "was", "were", "but", "so", "do",}
+STOP_WORDS = {
+    "the", "is", "of", "and", "to", "a", "in", "it", "with", "you",
+    "what", "that", "may", "this", "are", "for", "be", "as", "on", "by",
+    "or", "can", "not", "an", "if", "we", "from", "have", "has", "at",
+    "will", "which", "each", "all", "was", "were", "but", "so", "do",
+}
+
 
 def extract_text(pdf_file, save_as="output2.txt"):
     """Extract text from every page of a PDF and save it to a txt file."""
@@ -39,9 +46,16 @@ def show_top(counter, n=5):
 
 if __name__ == "__main__":
     pdf_file = "sample.pdf"  # file name
-    text = extract_text(pdf_file)
-    words = get_words(text)
-    counter = count_words(words)
-    print(f"Total words: {len(words)}")
-    print(f"Unique words (after removing stop words): {len(counter)}\n")
-    show_top(counter, n=5)
+
+    if not os.path.exists(pdf_file):
+        print(f"File not found: {pdf_file}")
+    else:
+        text = extract_text(pdf_file)
+        if not text.strip():
+            print("No text could be extracted from this PDF.")
+        else:
+            words = get_words(text)
+            counter = count_words(words)
+            print(f"Total words: {len(words)}")
+            print(f"Unique words (after removing stop words): {len(counter)}\n")
+            show_top(counter, n=5)
