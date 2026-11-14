@@ -45,17 +45,22 @@ def show_top(counter, n=5):
 
 
 if __name__ == "__main__":
-    pdf_file = "sample.pdf"  # file name
+    while True:
+        pdf_file = input("PDF file name (or press Enter to quit): ").strip()
 
-    if not os.path.exists(pdf_file):
-        print(f"File not found: {pdf_file}")
-    else:
-        text = extract_text(pdf_file)
-        if not text.strip():
-            print("No text could be extracted from this PDF.")
+        if pdf_file == "":
+            break
+
+        if not os.path.exists(pdf_file):
+            print(f"File not found: {pdf_file}")
         else:
-            words = get_words(text)
-            counter = count_words(words)
-            print(f"Total words: {len(words)}")
-            print(f"Unique words (after removing stop words): {len(counter)}\n")
-            show_top(counter, n=5)
+            text = extract_text(pdf_file)
+            if not text.strip():
+                print("No text could be extracted from this PDF.")
+            else:
+                words = get_words(text)
+                counter = count_words(words)
+                print(f"Total words: {len(words)}")
+                print(f"Unique words (after removing stop words): {len(counter)}\n")
+                show_top(counter, n=5)
+                break
