@@ -2,6 +2,7 @@ import os
 import re
 from collections import Counter
 from pypdf import PdfReader
+from pypdf.errors import PdfReadError
 
 # Common words we usually don't care about
 STOP_WORDS = {
@@ -53,14 +54,24 @@ if __name__ == "__main__":
 
         if not os.path.exists(pdf_file):
             print(f"File not found: {pdf_file}")
-        else:
+            continue
+        try:
             text = extract_text(pdf_file)
-            if not text.strip():
+        except PdfReadError:
+            print(f"Could not read {pdf_file}: it may be corrupted or password-protected.")
+            continue
+
+        if not text.strip():
+            print("No text could be extracted from this PDF.")
+            continue
+
+        if not text.strip():
                 print("No text could be extracted from this PDF.")
-            else:
-                words = get_words(text)
-                counter = count_words(words)
-                print(f"Total words: {len(words)}")
-                print(f"Unique words (after removing stop words): {len(counter)}\n")
-                show_top(counter, n=5)
-                break
+                continue
+        
+        words = get_words(text)
+        counter = count_words(words)
+        print(f"Total words: {len(words)}")
+        print(f"Unique words (after removing stop words): {len(counter)}\n")
+        show_top(counter, n=5)
+        break
