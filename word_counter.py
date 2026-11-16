@@ -1,5 +1,6 @@
 import os
 import re
+import sys
 from collections import Counter
 from pypdf import PdfReader
 from pypdf.errors import PdfReadError
@@ -45,33 +46,40 @@ def show_top(counter, n=5):
         print(f"{rank:<6}{word:<12}{count:<6}")
 
 
+def analyze(pdf_file):
+    """Analyze one PDF. Return True if it worked, False if something went wrong."""
+    if not os.path.exists(pdf_file):
+        print(f"File not found: {pdf_file}")
+        return False
+
+    try:
+        text = extract_text(pdf_file)
+    except PdfReadError:
+        print(f"Could not read {pdf_file}: it may be corrupted or password-protected.")
+        return False
+
+    if not text.strip():
+        print("No text could be extracted from this PDF.")
+        return False
+
+    words = get_words(text)
+    counter = count_words(words)
+    print(f"Total words: {len(words)}")
+    print(f"Unique words (after removing stop words): {len(counter)}\n")
+    show_top(counter, n=5)
+    return True
+
+
 if __name__ == "__main__":
-    while True:
-        pdf_file = input("PDF file name (or press Enter to quit): ").strip()
-
-        if pdf_file == "":
-            break
-
-        if not os.path.exists(pdf_file):
-            print(f"File not found: {pdf_file}")
-            continue
-        try:
-            text = extract_text(pdf_file)
-        except PdfReadError:
-            print(f"Could not read {pdf_file}: it may be corrupted or password-protected.")
-            continue
-
-        if not text.strip():
-            print("No text could be extracted from this PDF.")
-            continue
-
-        if not text.strip():
-                print("No text could be extracted from this PDF.")
-                continue
-        
-        words = get_words(text)
-        counter = count_words(words)
-        print(f"Total words: {len(words)}")
-        print(f"Unique words (after removing stop words): {len(counter)}\n")
-        show_top(counter, n=5)
-        break
+    if len(sys.argv) == 2:
+        if not analyze(sys.argv[1]):
+            sys.exit(1)
+    elif len(sys.argv) == 1:
+        while True:
+            pdf_file = input("PDF file name (or press Enter to quit): ").strip()
+            if pdf_file == "":
+                break
+            if analyze(pdf_file):
+                break
+    else:
+        sys.exit("Usage: python word_counter.py [file.pdf]")
