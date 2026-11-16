@@ -3,18 +3,20 @@
 A Python program that extracts text from a PDF and shows the most frequently used words.
 
 ## How it works
-1. Reads every page of a PDF with `pypdf` and saves the text to `output2.txt`
-2. Cleans the text into lowercase words using a regular expression
-3. Removes common stop words (like "the", "is", "of")
-4. Counts words with `collections.Counter` and prints a ranked table
+1. Takes a PDF file name from the command line (or asks for one if you don't give it)
+2. Reads every page of the PDF with `pypdf` and saves the text to `output2.txt`
+3. Cleans the text into lowercase words using a regular expression
+4. Removes common stop words (like "the", "is", "of") and single letters
+5. Counts words with `collections.Counter` and prints a ranked table
 
 ## Run it
 ```
 pip install -r requirements.txt
-python word_counter.py
+python word_counter.py sample.pdf
 ```
+If you run it without a file name, it asks for one, and you can press Enter to quit.
 
-By default it reads `sample.pdf` from the same folder. `sample.pdf` is a short four-page reading on how recommendation systems work, included so the program runs out of the box. To analyze your own document, replace it with any text-based PDF and update the file name in `word_counter.py`.
+`sample.pdf` is a short four-page reading on how recommendation systems work, included so the program runs out of the box. To analyze your own document, put any text-based PDF in this folder and pass its name.
 
 ## Sample output
 ```
@@ -34,11 +36,14 @@ Rank  Word        Count
 - Headers and footers that repeat on every page are counted each time.
 - Scanned PDFs (images of text) won't work, since there is no text to extract.
 
-## Roadmap
-Planned upgrades as I work through CS50P: error handling for missing files, passing the PDF name as an argument, unit tests, saving results to CSV.
+## Progress
 - Lecture 1: handles a missing or empty PDF with clear messages
 - Lecture 2: re-prompt until a valid PDF is given
 - Lecture 3: handles unreadable or corrupted PDFs with try/except
+- Lecture 4: takes the PDF name from the command line with sys.argv
+
+## Roadmap
+Planned upgrades as I work through CS50P: error handling for missing files, passing the PDF name as an argument, unit tests, saving results to CSV.
 
 ## About
 Part of my CS50P learning journey: [learning-log](https://github.com/sarvagya-p/learning-log)
