@@ -32,6 +32,12 @@ Rank  Word        Count
 5     relevant    7
 ```
 
+## Run the tests
+```
+pip install -r requirements-dev.txt
+python -m pytest
+```
+
 ## Known limitations
 - Headers and footers that repeat on every page are counted each time.
 - Scanned PDFs (images of text) won't work, since there is no text to extract.
@@ -41,9 +47,10 @@ Rank  Word        Count
 - Lecture 2: re-prompt until a valid PDF is given
 - Lecture 3: handles unreadable or corrupted PDFs with try/except
 - Lecture 4: takes the PDF name from the command line with sys.argv
+- Lecture 5: unit tests for word cleaning and counting with pytest
 
 ## Roadmap
-Planned upgrades as I work through CS50P: error handling for missing files, passing the PDF name as an argument, unit tests, saving results to CSV.
+Planned upgrades as I work through CS50P: error handling for missing files, passing the PDF name as an argument, saving results to CSV.
 
 ## About
 Part of my CS50P learning journey: [learning-log](https://github.com/sarvagya-p/learning-log)
