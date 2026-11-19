@@ -1,3 +1,4 @@
+import csv
 import os
 import re
 import sys
@@ -13,7 +14,6 @@ STOP_WORDS = {
     "will", "which", "each", "all", "was", "were", "but", "so", "do",
 }
 
-
 def extract_text(pdf_file, save_as="output2.txt"):
     """Extract text from every page of a PDF and save it to a txt file."""
     reader = PdfReader(pdf_file)
@@ -26,11 +26,9 @@ def extract_text(pdf_file, save_as="output2.txt"):
         f.write(all_text)
     return all_text
 
-
 def get_words(text):
     """Return a list of lowercase words from a block of text."""
     return re.findall(r"[a-z']+", text.lower())
-
 
 def count_words(words, skip_stop_words=True):
     """Count how often each word appears."""
@@ -38,13 +36,19 @@ def count_words(words, skip_stop_words=True):
         words = [w for w in words if w not in STOP_WORDS and len(w) > 1]
     return Counter(words)
 
-
 def show_top(counter, n=5):
     print(f"{'Rank':<6}{'Word':<12}{'Count':<6}")
     print("-" * 24)
     for rank, (word, count) in enumerate(counter.most_common(n), start=1):
         print(f"{rank:<6}{word:<12}{count:<6}")
 
+def save_csv(counter, filename="results.csv"):
+    """Save every word and its count to a CSV file, most common first."""
+    with open(filename, "w", newline="", encoding="utf-8") as file:
+        writer = csv.writer(file)
+        writer.writerow(["word", "count"])
+        for word, count in counter.most_common():
+            writer.writerow([word, count])
 
 def analyze(pdf_file):
     """Analyze one PDF. Return True if it worked, False if something went wrong."""
@@ -67,8 +71,9 @@ def analyze(pdf_file):
     print(f"Total words: {len(words)}")
     print(f"Unique words (after removing stop words): {len(counter)}\n")
     show_top(counter, n=5)
+    save_csv(counter)
+    print("\nSaved all word counts to results.csv")
     return True
-
 
 if __name__ == "__main__":
     if len(sys.argv) == 2:

@@ -1,4 +1,5 @@
-from word_counter import get_words, count_words
+from collections import Counter
+from word_counter import get_words, count_words, save_csv
 
 def test_get_words_lowercases():
     assert get_words("Hello World") == ["hello", "world"]
@@ -31,3 +32,11 @@ def test_count_words_keeps_stop_words_when_asked():
 def test_count_words_skips_single_letters():
     counter = count_words(["k", "data"])
     assert "k" not in counter
+
+def test_save_csv(tmp_path):
+    out = tmp_path / "out.csv"
+    save_csv(Counter({"data": 2, "items": 1}), str(out))
+    lines = out.read_text(encoding="utf-8").splitlines()
+    assert lines[0] == "word,count"
+    assert lines[1] == "data,2"
+    assert lines[2] == "items,1"

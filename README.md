@@ -48,6 +48,7 @@ python -m pytest
 - Lecture 3: handles unreadable or corrupted PDFs with try/except
 - Lecture 4: takes the PDF name from the command line with sys.argv
 - Lecture 5: unit tests for word cleaning and counting with pytest
+- Lecture 6: saves all word counts to a CSV file
 
 ## Roadmap
 Planned upgrades as I work through CS50P: error handling for missing files, passing the PDF name as an argument, saving results to CSV.
