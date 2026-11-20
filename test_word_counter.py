@@ -16,6 +16,18 @@ def test_get_words_apostrophe():
 def test_get_words_drops_numbers():
     assert get_words("room 101") == ["room"]
 
+def test_get_words_removes_urls():
+    assert get_words("Check https://example.com/page now") == ["check", "now"]
+
+def test_get_words_removes_emails():
+    assert get_words("Email me at a.b@example.com today") == ["email", "me", "at", "today"]
+
+def test_get_words_keeps_hyphenated():
+    assert get_words("a well-known idea") == ["a", "well-known", "idea"]
+
+def test_get_words_edge_apostrophes():
+    assert get_words("'quoted' text") == ["quoted", "text"]
+
 def test_count_words_counts():
     counter = count_words(["data", "data", "items"])
     assert counter["data"] == 2

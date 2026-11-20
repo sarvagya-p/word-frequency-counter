@@ -27,8 +27,15 @@ def extract_text(pdf_file, save_as="output2.txt"):
     return all_text
 
 def get_words(text):
-    """Return a list of lowercase words from a block of text."""
-    return re.findall(r"[a-z']+", text.lower())
+    """Return a list of lowercase words from a block of text.
+
+    URLs and email addresses are removed first. Words may contain an
+    apostrophe or hyphen inside them (don't, well-known).
+    """
+    text = text.lower()
+    text = re.sub(r"https?://\S+|www\.\S+", " ", text)
+    text = re.sub(r"\S+@\S+\.\S+", " ", text)
+    return re.findall(r"[a-z]+(?:['-][a-z]+)*", text)
 
 def count_words(words, skip_stop_words=True):
     """Count how often each word appears."""
