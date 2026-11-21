@@ -31,6 +31,14 @@ Rank  Word        Count
 4     first       7
 5     relevant    7
 ```
+## Use it in Python
+```python
+from word_counter import WordCounter
+
+wc = WordCounter()
+wc.load_pdf("sample.pdf")
+print(wc.top(3))
+```
 
 ## Run the tests
 ```
@@ -50,6 +58,7 @@ python -m pytest
 - Lecture 5: unit tests for word cleaning and counting with pytest
 - Lecture 6: saves all word counts to a CSV file
 - Lecture 7: cleans text with regular expressions (removes URLs and emails, keeps hyphenated words)
+- Lecture 8: refactored into a WordCounter class with methods and properties
 
 ## Roadmap
 Planned upgrades as I work through CS50P: error handling for missing files, passing the PDF name as an argument, saving results to CSV.
