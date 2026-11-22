@@ -14,7 +14,15 @@ A Python program that extracts text from a PDF and shows the most frequently use
 pip install -r requirements.txt
 python word_counter.py sample.pdf
 ```
-If you run it without a file name, it asks for one, and you can press Enter to quit.
+
+More options:
+```
+python word_counter.py sample.pdf --top 10          # show the 10 most common words
+python word_counter.py sample.pdf --keep-stop-words # count common words like "the" too
+python word_counter.py -h                           # list every option
+```
+
+If you leave out the file name, the program asks for one, and you can press Enter to quit.
 
 `sample.pdf` is a short four-page reading on how recommendation systems work, included so the program runs out of the box. To analyze your own document, put any text-based PDF in this folder and pass its name.
 
@@ -59,9 +67,15 @@ python -m pytest
 - Lecture 6: saves all word counts to a CSV file
 - Lecture 7: cleans text with regular expressions (removes URLs and emails, keeps hyphenated words)
 - Lecture 8: refactored into a WordCounter class with methods and properties
+- Lecture 9: command-line options with argparse, type hints, and stop words loaded from a file
 
 ## Roadmap
-Planned upgrades as I work through CS50P: error handling for missing files, passing the PDF name as an argument, saving results to CSV.
+Ideas for future upgrades:
+- Skip headers and footers that repeat on every page
+- Count two-word phrases (bigrams)
+- Show a bar chart of the top words
+- Analyze several PDFs in one run
+- A small web interface, for example with Streamlit
 
 ## About
 Part of my CS50P learning journey: [learning-log](https://github.com/sarvagya-p/learning-log)
