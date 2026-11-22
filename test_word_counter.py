@@ -1,6 +1,13 @@
 import pytest
 from collections import Counter
-from word_counter import get_words, count_words, save_csv, WordCounter
+from word_counter import (
+    get_words,
+    count_words,
+    save_csv,
+    load_stop_words,
+    STOP_WORDS,
+    WordCounter,
+)
 
 def test_get_words_lowercases():
     assert get_words("Hello World") == ["hello", "world"]
@@ -93,3 +100,16 @@ def test_wordcounter_load_pdf_without_text(monkeypatch):
     wc = WordCounter()
     with pytest.raises(ValueError):
         wc.load_pdf("anything.pdf")
+
+def test_load_stop_words(tmp_path):
+    file = tmp_path / "stop.txt"
+    file.write_text("The\nand\n\n  of  \n", encoding="utf-8")
+    assert load_stop_words(str(file)) == {"the", "and", "of"}
+
+def test_default_stop_words_loaded():
+    assert "the" in STOP_WORDS
+
+def test_wordcounter_keep_stop_words():
+    wc = WordCounter(stop_words=set())
+    wc.load_text("the the data")
+    assert wc.counter["the"] == 2
